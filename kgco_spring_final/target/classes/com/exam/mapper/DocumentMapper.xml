@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exam.mapper.DocumentMapper">
+
+<select id="getDocumentType" resultType="String">
+   SELECT DocType 
+   FROM documentlevel 
+   WHERE DocDetailType = #{DocDetailType}
+</select>
+
+
+<select id="getDocumentCnt" resultType="int">
+   SELECT count(*) 
+   FROM  document
+   WHERE documentNo LIKE CONCAT('%', #{text}, '%') 
+</select>
+
+<insert id="setDocument">
+      INSERT INTO document
+      (documentNo, subject, context, confirm1, confirm1Reg, confirm2, confirm2Reg,
+       confirm3, confirm3Reg, doctype, type, writer, regdate, docstate, key1,   key2)
+      VALUES
+      (#{documentNo},#{subject},#{context},#{confirm1},#{confirm1Reg},#{confirm2},#{confirm2Reg},
+      #{confirm3},#{confirm3Reg},#{doctype},#{type},#{writer},current_timestamp,#{docstate},   #{key1},#{key2})
+</insert>
+
+
+<select id="setDocumentLev" resultType="int">
+   SELECT docLev
+   FROM  documentlevel
+   WHERE DocDetailType = #{DocDetailType}
+</select>
+
+
+
+<select id="getConfirmDocuments" resultType="DocumentVO">
+   SELECT *
+   FROM  document
+   WHERE docstate = #{authLev} and  writer LIKE CONCAT('%', #{selectStr}, '%')  
+</select>
+
+
+<select id="getdocument" resultType="DocumentVO">
+   SELECT *
+   FROM  document
+   WHERE documentNo = #{no}  
+</select>
+
+
+
+   <update id="setDocumentCancel">
+      UPDATE document
+      SET docstate='9' , confirm3 = #{user} , confirm3reg = current_timestamp
+      WHERE documentNo = #{no}
+   </update>
+   
+   <update id="setDocumentConfirm">
+      UPDATE document
+      SET docstate='10' , confirm3 = #{user} , confirm3reg = current_timestamp
+      WHERE documentNo = #{no}
+   </update>
+   
+   
+   <update id="setDocumentConfirmExaggeration">
+      UPDATE document
+      SET  confirm1 = #{user}, confirm1reg = current_timestamp, docstate = 4
+      WHERE documentNo = #{no}
+   </update>
+   
+      <update id="setDocumentConfirmDeputy">
+      UPDATE document
+      SET  confirm2 = #{user}, confirm2reg = current_timestamp, docstate = 5
+      WHERE documentNo = #{no}
+   </update>
+   
+    <!-- 보고 -->
+   <select id="getFinishDocuments" resultType="DocumentVO">
+   SELECT *
+   FROM  document
+   WHERE docstate = #{checkStr}  and (writer = #{eid} or confirm1 = #{eid} or confirm2 = #{eid} or confirm3 = #{eid} )
+</select>
+</mapper>

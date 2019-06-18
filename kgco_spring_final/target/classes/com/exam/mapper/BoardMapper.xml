@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exam.mapper.BoardMapper">
+
+	<select id="getBoardId" resultType="int">
+		SELECT
+		IFNULL(MAX(boardid),0)+1 FROM board
+	</select>
+<!-- 
+	<select id="getAllBoards" resultType="BoardVo">
+		SELECT * FROM board
+		<where>
+			<if test="search!=null and search !=''">
+				subject like CONCAT('%', #{search}, '%')
+			</if>
+		</where>
+			ORDER BY boardid desc
+		LIMIT #{amount} OFFSET #{startRow}
+	</select>
+	
+ -->
+
+	<select id="getAllBoards" resultType="BoardVo">
+		SELECT * FROM board
+		<where>
+			<if test="search!=null and search !=''">
+				<if test="searchSelect=='subjectSearch'">
+				subject like CONCAT('%', #{search}, '%')
+				</if>
+				<if test="searchSelect=='contentSearch'">
+				content like CONCAT('%', #{search}, '%')
+				</if>
+				<if test="searchSelect=='writerSearch'">
+				eId like CONCAT('%', #{search}, '%')
+				</if>
+				
+			</if>
+		</where>
+			ORDER BY boardid desc
+		LIMIT #{amount} OFFSET #{startRow}
+	</select>
+		
+
+
+	
+	<select id="getBoardCount" resultType="_int">
+		SELECT COUNT(*) FROM board
+		<where>
+			<if test="search!=null and search !=''">
+					<if test="searchSelect=='subjectSearch'">
+					subject like CONCAT('%', #{search}, '%')
+					</if>
+					<if test="searchSelect=='contentSearch'">
+					content like CONCAT('%', #{search}, '%')
+					</if>
+					<if test="searchSelect=='writerSearch'">
+					eId like CONCAT('%', #{search}, '%')
+					</if>
+					
+			</if>
+		</where>
+	</select>
+			
+	<!-- <select id="" resultType=""> SELECT * FROM board WHERE filename IS 
+		NOT NULL </select> -->
+
+	<select id="getBoardbyBoardId" resultType="BoardVo">
+		SELECT * FROM board
+		WHERE
+		boardid=#{boardId}
+	</select>
+
+	<select id="getMostReadCount" resultType="BoardVo">
+		SELECT * FROM board
+		ORDER BY readcount desc LIMIT 3;
+	</select>
+
+
+	<insert id="insertBoard">
+		INSERT INTO board(
+		boardId, eId, password, subject,
+		content, readcount, regDate, auth)
+		VALUES
+		(#{boardId}, #{eid},
+		#{password}, #{subject}, #{content}, #{readcount}, DATE_FORMAT(current_timestamp, '%Y-%m-%d %H:%i'),
+		#{auth})
+	</insert>
+	
+	<update id="updateBoard"> 
+		update board set subject=#{subject}, content=#{content}, auth=#{auth}
+		WHERE
+		boardId=#{boardId}
+	</update>
+	
+	<update id="updateReadcount">
+		update board set readcount=readcount+1
+		WHERE
+		boardid=#{boardid}
+	</update>
+	
+	<delete id="deleteBoard"> 
+		delete from board where boardId=#{boardId}
+	</delete>
+
+	<select id="boardAndattachJoinbyBoardId" resultType="String">
+		SELECT filetype, bid
+		from board b
+		inner join attach a
+		on b.boardId = a.bid
+		where boardId=#{boardId}
+	</select>
+
+
+</mapper>

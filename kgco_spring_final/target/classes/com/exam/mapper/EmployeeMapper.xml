@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exam.mapper.EmployeeMapper">
+
+	<!-- 비밀번호 보안 업데이트 -->
+	<update id="updateByPass">
+		UPDATE all_employee SET epassword=#{epassword} WHERE eid=#{eid}
+
+	</update>
+	<select id="getEmployeeList" resultType="employeeVo">
+		SELECT * FROM
+		all_employee
+	</select>
+	<!-- 부서별 인원편성 -->
+	<select id="getPebyDept" resultType="pebyDeptVO">
+		SELECT* FROM pebydept
+	</select>
+	<!--  부서별 인원편성 테이블 현황 업데이트  -->
+	<update id="updatePeByDept">
+	UPDATE pebydept 
+	SET wcp = CASE deptcode
+		WHEN 'FA01' THEN (SELECT COUNT(*) FROM employeestatus WHERE eState='nor' AND eid LIKE '%FA01%')
+	    WHEN 'FA02' THEN (SELECT COUNT(*) FROM employeestatus WHERE eState='nor' AND eid LIKE '%FA02%')
+		WHEN 'FA03' THEN (SELECT COUNT(*) FROM employeestatus WHERE eState='nor' AND eid LIKE '%FA03%')
+		WHEN 'MA01' THEN (SELECT COUNT(*) FROM employeestatus WHERE eState='nor' AND eid LIKE '%MA01%')
+		WHEN 'MA02' THEN (SELECT COUNT(*) FROM employeestatus WHERE eState='nor' AND eid LIKE '%MA02%')
+		WHEN 'MA03' THEN (SELECT COUNT(*) FROM employeestatus WHERE eState='nor' AND eid LIKE '%MA03%')
+		WHEN 'OP01' THEN (SELECT COUNT(*) FROM employeestatus WHERE eState='nor' AND eid LIKE '%OP01%')
+		WHEN 'OP02' THEN (SELECT COUNT(*) FROM employeestatus WHERE eState='nor' AND eid LIKE '%OP02%')
+	    WHEN 'OP03' THEN (SELECT COUNT(*) FROM employeestatus WHERE eState='nor' AND eid LIKE '%OP03%')
+	    WHEN 'TR01' THEN (SELECT COUNT(*) FROM employeestatus WHERE eState='nor' AND eid LIKE '%TR01%')
+	    WHEN 'TR02' THEN (SELECT COUNT(*) FROM employeestatus WHERE eState='nor' AND eid LIKE '%TR02%')
+	    WHEN 'TR03' THEN (SELECT COUNT(*) FROM employeestatus WHERE eState='nor' AND eid LIKE '%TR03%')
+	 END,
+	    vcp = CASE deptcode
+		WHEN 'FA01' THEN (SELECT COUNT(*) FROM employeestatus WHERE eState='va' AND eid LIKE '%FA01%')
+	    WHEN 'FA02' THEN (SELECT COUNT(*) FROM employeestatus WHERE eState='va' AND eid LIKE '%FA02%')
+		WHEN 'FA03' THEN (SELECT COUNT(*) FROM employeestatus WHERE eState='va' AND eid LIKE '%FA03%')
+		WHEN 'MA01' THEN (SELECT COUNT(*) FROM employeestatus WHERE eState='va' AND eid LIKE '%MA01%')
+		WHEN 'MA02' THEN (SELECT COUNT(*) FROM employeestatus WHERE eState='va' AND eid LIKE '%MA02%')
+		WHEN 'MA03' THEN (SELECT COUNT(*) FROM employeestatus WHERE eState='va' AND eid LIKE '%MA03%')
+		WHEN 'OP01' THEN (SELECT COUNT(*) FROM employeestatus WHERE eState='va' AND eid LIKE '%OP01%')
+		WHEN 'OP02' THEN (SELECT COUNT(*) FROM employeestatus WHERE eState='va' AND eid LIKE '%OP02%')
+	    WHEN 'OP03' THEN (SELECT COUNT(*) FROM employeestatus WHERE eState='va' AND eid LIKE '%OP03%')
+	    WHEN 'TR01' THEN (SELECT COUNT(*) FROM employeestatus WHERE eState='va' AND eid LIKE '%TR01%')
+	    WHEN 'TR02' THEN (SELECT COUNT(*) FROM employeestatus WHERE eState='va' AND eid LIKE '%TR02%')
+	    WHEN 'TR03' THEN (SELECT COUNT(*) FROM employeestatus WHERE eState='va' AND eid LIKE '%TR03%')
+    END
+	</update>
+
+	<!-- 게이트별 인원 편성 -->
+	<select id="getPebyGate" resultType="PebyGateVO">
+		SELECT* FROM pebygate
+	</select>
+
+	<!-- 직원 근무 현황 -->
+	<select id="getEmployeeStatus" resultType="EmployeeStatusVO">
+		SELECT a.*,b.ename,b.eclass FROM employeestatus a,all_employee b
+		<where>
+			<if test="authName == 'ROLE_HEAD'">
+				a.eid =b.eid
+			</if>
+			<if test="authName == 'ROLE_VICEHEAD'">
+				a.eid =b.eid AND b.level <![CDATA[<=4]]>
+			</if>
+			<if test="authName == 'ROLE_EXAGGERATION'">
+				a.eid =b.eid AND b.level  <![CDATA[<=3]]>
+			</if>
+			<if test="authName == 'ROLE_MANAGER'">
+				a.eid =b.eid AND b.level  <![CDATA[<=2]]>
+			</if>
+			<if test="authName == 'ROLE_MEMBER'">
+				a.eid =b.eid AND b.level  <![CDATA[<=1]]>
+			</if>
+		</where>
+	</select>
+	<!-- 근무그룹가져오기  -->
+	<select id="getEmployeeStatusByEid" resultType="string">
+		SELECT egroup FROM employeestatus WHERE eid =#{eid}
+	</select>
+	
+	<!-- 자기 근무 상태 확인 -->
+	<select id="selfSchedule" resultType="EmployeeStatusVO">
+	SELECT a.*,b.ename,b.eclass FROM employeestatus a,all_employee b
+	WHERE a.eid = b.eid AND a.eid=#{eid}
+	</select>
+	<!-- 직원 출근현황 차트 -->
+	<select id="getCountEstate"
+		resultType="EstateCountVo">
+		SELECT estate, COUNT(*) AS
+		num
+		FROM employeestatus
+		WHERE eid LIKE CONCAT('%', #{eid}, '%') 
+		GROUP BY estate
+		ORDER BY COUNT(*) DESC
+	</select>
+	
+	
+	<select id="getMemberById" resultType="employeeVo">
+		SELECT * FROM all_employee
+		WHERE eid=#{eid}
+	</select>
+
+
+	<select id="getAllEid" resultType="employeeVO">
+		SELECT eid FROM all_employee
+	</select>
+
+	<!-- 직원 상태 업데이트 -->
+	<select id="searchByEid" resultType="string">
+		SELECT estate FROM
+		employeestatus WHERE eid =#{eid}
+	</select>
+	<insert id="updateEstate">
+		UPDATE employeestatus SET estate =#{estate} WHERE eid
+		= #{eid}
+	</insert>
+
+	<!-- 게이트별 인원편성  -->
+	<update id="updatePebyGate">
+		UPDATE pebygate
+		SET byTransport =(SELECT COUNT(*) FROM employeestatus WHERE egroup =#{egroup} AND eid LIKE concat('%', #{eidtr} , '%') AND eGate LIKE concat('%', #{eGate} , '%')),
+		byMaintenance = (SELECT COUNT(*) FROM employeestatus WHERE egroup =#{egroup} AND eid LIKE concat('%', #{eidma} , '%')AND eGate LIKE concat('%', #{eGate} , '%'))
+		WHERE gateNum =#{gateNum};
+	</update>
+	
+	<!-- 직원 근무일지 삽입  -->
+	<insert id="insertByWorkNote">
+		insert INTO employeeWorknote(date,eidAndWorkNote) values(#{date},#{eidAndWorkNote})
+	</insert>
+	<!-- 직원 근무일지 업데이트  -->
+	<update id="updateByWorkNote">
+		UPDATE employeeWorknote SET eidAndWorkNote =#{eidAndWorkNote} WHERE date =#{date}
+	</update>
+	
+	<!-- 직원근무일지 가져오기 -->
+	<select id="getWorkNote" resultType="EmployeeWorkNoteVO">
+		SELECT* FROM employeeworknote;
+	</select>
+	
+	<!-- 금일 근무일지 업데이트  -->
+	<update id="updateByStatus">
+		UPDATE employeestatus SET estate=#{estate} WHERE eid=#{eid};
+	</update>
+	
+	<!-- user정보 수정 -->
+	<update id="userInfoUpdate">
+		UPDATE all_employee 
+		SET ename=#{ename}, 
+		ephone=#{ephone} 
+		WHERE eid=#{eid}
+	</update>
+	
+	<!-- 검색 -->
+	<select id="memberSelect" resultType="EmployeeStatusVO">
+		SELECT a.*,b.ename,b.eclass FROM employeestatus a,all_employee b
+		WHERE a.eid = b.eid AND ${selec} LIKE CONCAT('%', #{search}, '%')
+	</select>
+	
+	 <!-- getEmployeeLev  해수-->
+   <select id="getEmployeeLev" resultType="int">
+	   SELECT level 
+	   from all_employee where eId = #{eid};
+   </select>
+   
+   	<update id="updateEmployeeStatus">
+		UPDATE employeestatus 
+		SET eGate = #{eGate}
+		WHERE eid=#{eid}
+	</update>
+		   <!-- 비번체크 -->
+   <select id="modifyPwCheck" resultType="employeeVo">
+   SELECT * FROM all_employee WHERE eid = #{eid}
+   </select>
+</mapper>

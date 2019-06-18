@@ -1,0 +1,161 @@
+@charset "UTF-8";
+
+@charset "UTF-8";
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+@import url(https://fonts.googleapis.com/earlyaccess/notosansjapanese.css);
+@import url(https://fonts.googleapis.com/earlyaccess/notosanssc.css);
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+
+
+html {
+  font-size: 15px;
+}
+
+body {
+	background-color: #64bfee;
+  line-height: 1;
+  font-family: roboto, spoqa, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #444;
+  overflow-y: scroll;
+  position: relative;
+}
+
+
+footer, header, menu, nav, section, div {
+  display: block;
+  font-size: 1.5rem;
+}
+
+
+::-webkit-scrollbar {
+  width: 0px;
+  height: 5px;
+}
+
+
+/*  지워볼것들*/
+
+::-webkit-scrollbar-track {
+  background-color: #efefef;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d9d9d9;
+}
+
+::-webkit-scrollbar-button {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+/*  지워볼것들*/
+
+
+table{
+ color:#00008B;
+ border-collapse: collapse;
+    border-spacing: 0;
+}
+
+table th {
+    text-align: center;
+}
+
+
+.colspan-2{
+	margin:auto;
+}
+
+
+.f-left {
+  float: left;
+}
+
+.f-right {
+  float: right;
+}
+
+strong {
+  font-weight: 900;
+}
+
+.flight-info-detail-heading{
+ 	padding-top: 10px;
+    padding-left: 10px;
+}
+   
+.flight-info-detail-heading-title {
+  color: #fff;
+  font-weight: 900;
+  float: left;
+}
+
+
+.flight-info-detail-airline .flight-info-detail-country {
+  color: white;
+  font-size: 1.3rem;
+      padding: 5px;
+}
+
+
+.flight-info-detail-airline {
+  text-align: center;
+  padding-top: 130px;
+ 
+}
+
+.flight-info-detail-airline .flight-info-detail-date {
+	color:#FFF0F5;
+  font-size: 0.88rem;
+  margin-top: 5px;
+}
+
+.flight-info-detail-date{
+	  color: #FFF0F5;
+	margin:10px;
+}
+
+.flight-time{
+	color:#00008B;
+	 font-size: 1.25rem;
+}
+
+.flight-info-detail-country{
+	 
+	margin:5px;
+}
+
+table{
+margin:20px;
+}
+
+tr th{
+	padding:5px;
+	
+}
+
+
+
+.top-popup-item:after, .top-popup-control-paging:after, .header-site:after, .header-util:after, .header-search:after, .gnb-depth1:after, .gnb.bg .header-search:after, .main-visual-control-paging:after, .main-visual-control-paging .paging-visual:after, .main-visual-search:after, .main-visual-search-inner:after, .main-visual-search-weather:after, .main-block:after, .main-block-item .guide-wrap .guide-box:after, .main-block-item .link-list-item:after, .main-block-item .link-list-sub:after, .main-guide:after, .main-guide .link-list:after, .main-banner-list:after, .main-banner-control-paging:after, .main-banner-control-paging .paging-visual:after, .location-bar-nav:after, .tab-main-list:after, .tab-sub-list:after, .search-flight-detail-option:after, .search-flight-search:after, .search-airline-name:after, .global-search-area-field:after, .global-search-category:after, .global-search-result-box-quick-list:after, .global-search-result-box .list:after, .global-search-result .result-category .table.vt.borad-view .reply-box .location-list:after, .layer.find-my-terminal .layer-inputbox:after, .layer.system .layer-system-list:after, .layer-article:after, .tab-nav-list:after, .field2-group:after, .table-guide:after, .table-guide-btn:after, .table-guide-pop-up-list:after, .local-list:after, .local-town:after, .inner-tab2:after, .site-map-list-depth1:after, .question-wrap:after, .layer-text-box:after, .layer-text-box-right:after, .section-bg-inner:after, .section-bg-list:after, .section-bg-list.col-multi .section-bg-list-item:after, .boxmodel-list:after, .boxmodel-list-item.col-1 .leave-check .col-btn:after, .logo-list:after, .fix-banner:after, .bg-banner:after, .bg-banner-iconlist:after, .filter-terminal-search-depth1:after, .filter-brand-search-detail-result .brand-list:after, .filter-store-search:after, .filter-service-field:after, .field:after, .field-group:after, .boxmodel2:after, .boxmodel2-tab:after, .boxmodel2-list-box:after, .boxmodel2-list-detail:after, .boxmodel2-list-info:after, .boxmodel2-thumbnail:after, .boxmodel2-column:after, .boxmodel2-table:after, .calculator:after, .timesetting-date:after, .sub-menu-tab-iconlist:after, .search-cs-head:after, .login1-name:after, .search-phone-head:after, .search-phone-name:after, .address-layer .search-address-head:after, .address-layer .search-address-name:after, .address-layer .address-select-link:after, .multi-col:after, .borad-view .view-head-info:after, .borad-view .view-file:after, .borad-view .reply-box .reply-head:after, .borad-view .reply-box .reply-head-info:after, .pagenation:after, .pagenation-list:after, .faq-category-list:after, .lost-found:after, .join-service-list:after, .personal-info:after, .btn-tab:after, .kpop-step:after, .digr-way-bus:after, .digr-way-bus-list:after, .find-info-list:after, .flight-info-detail-heading:after, .flight-info-detail-airline:after, .flight-info-detail-way .way-list:after, .flight-info-detail-way .way-list-item-heading:after, .flight-info-detail-way .way-list-item-content:after, .flight-info-detail-way.pop:after, .flight-info-detail-dest:after, .flight-info-detail-sns:after, .footer-inside:after, .footer .sns:after, .footer .incheon-select:after, .footer .incheon-etc:after, .ch .logo-list:after, .en .layer-article:after, .en .logo-list:after, .en .global-search-result-box-quick-list:after, .en .global-search-result-box .list:after, .en .global-search-result .result-category .table.vt.borad-view .reply-box .location-list:after, .ja .logo-list:after,
+.clearfix:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.top-popup-item:after, .top-popup-control-paging:after, .header-site:after, .header-util:after, .header-search:after, .gnb-depth1:after, .gnb.bg .header-search:after, .main-visual-control-paging:after, .main-visual-control-paging .paging-visual:after, .main-visual-search:after, .main-visual-search-inner:after, .main-visual-search-weather:after, .main-block:after, .main-block-item .guide-wrap .guide-box:after, .main-block-item .link-list-item:after, .main-block-item .link-list-sub:after, .main-guide:after, .main-guide .link-list:after, .main-banner-list:after, .main-banner-control-paging:after, .main-banner-control-paging .paging-visual:after, .location-bar-nav:after, .tab-main-list:after, .tab-sub-list:after, .search-flight-detail-option:after, .search-flight-search:after, .search-airline-name:after, .global-search-area-field:after, .global-search-category:after, .global-search-result-box-quick-list:after, .global-search-result-box .list:after, .global-search-result .result-category .table.vt.borad-view .reply-box .location-list:after, .layer.find-my-terminal .layer-inputbox:after, .layer.system .layer-system-list:after, .layer-article:after, .tab-nav-list:after, .field2-group:after, .table-guide:after, .table-guide-btn:after, .table-guide-pop-up-list:after, .local-list:after, .local-town:after, .inner-tab2:after, .site-map-list-depth1:after, .question-wrap:after, .layer-text-box:after, .layer-text-box-right:after, .section-bg-inner:after, .section-bg-list:after, .section-bg-list.col-multi .section-bg-list-item:after, .boxmodel-list:after, .boxmodel-list-item.col-1 .leave-check .col-btn:after, .logo-list:after, .fix-banner:after, .bg-banner:after, .bg-banner-iconlist:after, .filter-terminal-search-depth1:after, .filter-brand-search-detail-result .brand-list:after, .filter-store-search:after, .filter-service-field:after, .field:after, .field-group:after, .boxmodel2:after, .boxmodel2-tab:after, .boxmodel2-list-box:after, .boxmodel2-list-detail:after, .boxmodel2-list-info:after, .boxmodel2-thumbnail:after, .boxmodel2-column:after, .boxmodel2-table:after, .calculator:after, .timesetting-date:after, .sub-menu-tab-iconlist:after, .search-cs-head:after, .login1-name:after, .search-phone-head:after, .search-phone-name:after, .address-layer .search-address-head:after, .address-layer .search-address-name:after, .address-layer .address-select-link:after, .multi-col:after, .borad-view .view-head-info:after, .borad-view .view-file:after, .borad-view .reply-box .reply-head:after, .borad-view .reply-box .reply-head-info:after, .pagenation:after, .pagenation-list:after, .faq-category-list:after, .lost-found:after, .join-service-list:after, .personal-info:after, .btn-tab:after, .kpop-step:after, .digr-way-bus:after, .digr-way-bus-list:after, .find-info-list:after, .flight-info-detail-heading:after, .flight-info-detail-airline:after, .flight-info-detail-way .way-list:after, .flight-info-detail-way .way-list-item-heading:after, .flight-info-detail-way .way-list-item-content:after, .flight-info-detail-way.pop:after, .flight-info-detail-dest:after, .flight-info-detail-sns:after, .footer-inside:after, .footer .sns:after, .footer .incheon-select:after, .footer .incheon-etc:after, .ch .logo-list:after, .en .layer-article:after, .en .logo-list:after, .en .global-search-result-box-quick-list:after, .en .global-search-result-box .list:after, .en .global-search-result .result-category .table.vt.borad-view .reply-box .location-list:after, .ja .logo-list:after,
+.clearfix:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.exam.mapper.ReplyMapper">
+
+	<insert id="insertReply">
+		INSERT INTO reply (ename, eId, replyContent, replyPassword, replyregDate, level, replyGroup)
+		VALUES (#{ename}, #{eId}, #{replyContent}, #{replyPassword}, CURRENT_TIMESTAMP, #{level}, #{replyGroup})
+	</insert>
+
+	
+	<select id="getAllRepliesByBoardId" resultType="ReplyVo">    
+		select * from reply where replyGroup=#{boardId}
+	</select>
+	
+	<select id="getReplycount" resultType="int">
+		select count(*) from reply where replyGroup=#{boardId}
+	</select>
+
+	
+	<delete id="deleteReplybyBoardId">
+      DELETE FROM reply WHERE replyGroup = #{boardId}   
+   </delete>
+	
+
+</mapper>

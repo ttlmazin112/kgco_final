@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exam.mapper.ScheduleMapper">
+
+	<!-- domestic start -->
+	<insert id="domesticInsert">
+		INSERT INTO domesticSch(arrivalCity,
+		domesticArrivalTime, domesticNum,
+		domesticStartTime, domesticMon,
+		domesticTue, domesticWed, domesticThu,
+		domesticFri, domesticSat,
+		domesticSun, domesticStdate, domesticEddate,
+		airlineKorean, startcity,
+		regdate, enable)
+		VALUES(#{arrivalcity},#{domesticArrivalTime},#{domesticNum},#{domesticStartTime},#{domesticMon},#{domesticTue},#{domesticWed},#{domesticThu},#{domesticFri},#{domesticSat},#{domesticSun},#{domesticStdate},#{domesticEddate},#{airlineKorean},#{startcity},
+		current_timestamp,'1')
+	</insert>
+
+	<select id="selectAllDomestic" resultType="OpenApiDomesticDto">
+		SELECT * FROM
+		domesticSch
+	</select>
+
+	<select id="selectDomesticByKey" resultType="OpenApiDomesticDto">
+		SELECT * FROM
+		domesticSch
+		WHERE domesticNum=#{domesticNum} and
+		domesticStdate=#{domesticStdate} and startcity=#{startcity}
+	</select>
+
+	<select id="selectCountDomesticByKey" resultType="int">
+		SELECT COUNT(*)
+		FROM domesticSch
+		WHERE domesticNum=#{domesticNum} and
+		domesticStdate=#{domesticStdate} and startcity=#{startcity}
+	</select>
+
+	<select id="domesticSelectbyDate"
+		resultType="OpenApiDomesticDto">
+<![CDATA[ SELECT * FROM domesticSch WHERE str_to_date(#{regdate}, '%Y%m%d %H%i') <= regdate <= str_to_date(#{regdate} '2359', '%Y%m%d  %H%i')]]>
+		<!-- camel Case 자동 맵핑도 생각해둬야 함 -->
+		<!-- SELECT * FROM domesticSch WHERE str_to_date('20190527', '%Y%m%d %H%i') 
+			<= regdate <= str_to_date('20190527 2359', '%Y%m%d %H%i'); -->
+	</select>
+
+	<update id="domesticUpdate">
+		UPDATE domesticSch
+		SET arrivalcity=#{arrivalcity},
+		domesticArrivalTime=#{domesticArrivalTime},
+		domesticNum=#{domesticNum}, domesticStartTime=#{domesticStartTime},
+		domesticMon=#{domesticMon},
+		domesticTue=#{domesticTue},
+		domesticWed=#{domesticWed}, domesticThu=#{domesticThu},
+		domesticFri=#{domesticFri},
+		domesticSat=#{domesticSat},
+		domesticSun=#{domesticSun}, domesticStdate=#{domesticStdate},
+		domesticEddate=#{domesticEddate},
+		airlineKorean=#{airlineKorean},
+		startcity=#{startcity}, regdate=current_timestamp, enable='1'
+
+		WHERE
+		domesticNum=#{domesticNum} and domesticStdate=#{domesticStdate} and
+		startcity=#{startcity}
+	</update>
+
+	<update id="domesticDisableUpdate">
+		UPDATE domesticSch
+		SET enable='0'
+		WHERE
+		domesticNum=#{domesticNum} and domesticStdate=#{domesticStdate} and
+		startcity=#{startcity} and regdate=#{regdate}
+	</update>
+
+	<delete id="deleteAllDomestic">
+		DELETE FROM domesticSch
+	</delete>
+	<!-- domestic end -->
+
+
+
+
+	<!-- international start -->
+	<insert id="internationalInsert">
+		INSERT INTO internationalSch(airlineKorean, airport,
+		city,
+		internationalIoType, internationalNum, internationalTime,
+		internationalMon, internationalTue, internationalWed,
+		internationalThu, internationalFri, internationalSat,
+		internationalSun, internationalStdate, internationalEddate, regdate,
+		enable)
+		VALUES(#{airlineKorean},#{airport},#{city},#{internationalIoType},#{internationalNum},
+		#{internationalTime},#{internationalMon},#{internationalTue},#{internationalWed},
+		#{internationalThu},#{internationalFri},#{internationalSat},#{internationalSun},
+		#{internationalStdate},#{internationalEddate},current_timestamp, '1')
+	</insert>
+
+	<select id="selectAllInternational"
+		resultType="OpenApiInternationalDto"> <!-- 스프링의 경우 대소문자 구분X -->
+		SELECT * FROM internationalSch
+	</select>
+
+	<select id="selectInternationalByKey"
+		resultType="OpenApiInternationalDto">
+		SELECT * FROM internationalSch
+		WHERE
+		internationalNum=#{internationalNum} and
+		internationalStdate=#{internationalStdate} and city=#{city}
+	</select>
+
+	<select id="selectCountInternationalByKey" resultType="int">
+		SELECT
+		COUNT(*) FROM internationalSch
+		WHERE
+		internationalNum=#{internationalNum} and
+		internationalStdate=#{internationalStdate} and city=#{city}
+	</select>
+
+	<select id="internationalSelectbyDate"
+		resultType="OpenApiInternationalDto">
+<![CDATA[ SELECT * FROM internationalSch WHERE str_to_date(#{regdate}, '%Y%m%d %H%i') <= regdate <= str_to_date(#{regdate} '2359', '%Y%m%d  %H%i')]]>
+		<!-- camel Case 자동 맵핑도 생각해둬야 함 -->
+		<!-- SELECT * FROM domesticSch WHERE str_to_date('20190527', '%Y%m%d %H%i') 
+			<= regdate <= str_to_date('20190527 2359', '%Y%m%d %H%i'); -->
+	</select>
+
+
+	<update id="internationalUpdate">
+		UPDATE internationalSch
+		SET
+		airlineKorean=#{airlineKorean},
+		airport=#{airport},
+		city=#{city},
+		internationalIoType=#{internationalIoType},
+		internationalNum=#{internationalNum},
+		internationalTime=#{internationalTime},
+		internationalMon=#{internationalMon},
+		internationalTue=#{internationalTue},
+		internationalWed=#{internationalWed},
+		internationalThu=#{internationalThu},
+		internationalFri=#{internationalFri},
+		internationalSat=#{internationalSat},
+		internationalSun=#{internationalSun},
+		internationalStdate=#{internationalStdate},
+		internationalEddate=#{internationalEddate}, regdate=current_timestamp,
+		enable='1'
+
+		WHERE internationalNum=#{internationalNum} and
+		internationalStdate=#{internationalStdate} and
+		city=#{city}
+	</update>
+
+	<update id="internationalDisableUpdate">
+		UPDATE internationalSch
+		SET enable='0'
+		WHERE
+		internationalNum=#{internationalNum} and
+		internationalStdate=#{internationalStdate} and
+		city=#{city} and
+		regdate=#{regdate}
+	</update>
+
+
+	<delete id="deleteAllInternational">
+		DELETE FROM internationalSch
+	</delete>
+
+
+	<!-- international end -->
+
+	<!-- realtime start -->
+
+
+
+	<select id="realtimeSelectOrderbyEtd"
+		resultType="OpenApiRealTimeFlightDto">
+		SELECT * FROM realtimeflight 
+		WHERE io=#{io} and (enable = '1' or enable = '2')
+		ORDER BY etd , airFln
+		ASC
+		
+	</select>
+
+
+	<select id="showRealTimeEnable"
+		resultType="com.exam.domain.OpenApiRealTimeFlightDto">
+		select * from realtimeflight where enable = "1";
+	</select>
+
+	<select id="selectCountRealTime" resultType="int">
+		Select count(*) as
+		count from realtimeflight where
+		airFln = #{airFln} and std = #{std} and
+		airport = #{airport} and (enable = '1' or enable = '2')
+	</select>
+
+	<select id="selectCountRealTimeUpdateCheck"
+		resultType="com.exam.domain.OpenApiRealTimeFlightDto">
+		Select * from realtimeflight where
+		airFln = #{airFln} and
+		std = #{std} and airport = #{airport} and (enable = '1' or enable =
+		'2')
+	</select>
+
+	<select id="selectSearchRealTime"
+		resultType="com.exam.domain.OpenApiRealTimeFlightDto">
+		SELECT * FROM realtimeflight WHERE ${find} LIKE CONCAT('%',
+		#{text}, '%')
+	</select>
+
+	<insert id="realTimeFlightInsert">
+		INSERT INTO realtimeflight
+		(airFln, airlineEnglish,
+		airlineKorean, airport, arrivedEng, arrivedKor,
+		boardingEng,
+		boardingKor, city, etd, io, line, rmkEng, rmkKor, std, regdate,
+		enable)
+		values
+		(#{airFln}, #{airlineEnglish}, #{airlineKorean},
+		#{airport}, #{arrivedEng},
+		#{arrivedKor}, #{boardingEng},
+		#{boardingKor}, #{city}, #{etd}, #{io},
+		#{line}, #{rmkEng}, #{rmkKor},
+		#{std}, current_timestamp, '2')
+	</insert>
+
+	<delete id="realTimeFlightDelete">
+		TRUNCATE TABLE realtimeflight
+	</delete>
+
+	<update id="realTimeFlightDisableUpdate">
+		Update realtimeflight set
+		enable = '0'
+		where airFln =
+		#{airFln} and airport = #{airport} and city = #{city} and regdate
+		=#{regdate}
+	</update>
+
+	<select id="selectUpdatedRealTime"
+		resultType="com.exam.domain.OpenApiRealTimeFlightDto">
+		SELECT * FROM realtimeflight WHERE enable = '2'
+	</select>
+
+	<update id="selectUpdatedRealTimeInitialization">
+		Update realtimeflight set
+		enable = '1'
+		where airFln =
+		#{airFln} and airport = #{airport} and city = #{city} and regdate
+		=#{regdate}
+	</update>
+
+	<!-- realtime end -->
+
+	<!-- airplnb start -->
+	<insert id="airplnbByGateInsert">
+		INSERT INTO airplnbygate
+		(gate, airFln, gateState,
+		airNumber, std)
+		values
+		(#{gate},#{airFln},#{gateState},#{airNumber},
+		#{std})
+	</insert>
+	<delete id="airplnbByGateDelete">
+		truncate table airplnbygate
+	</delete>
+
+	<select id="getFlightNum" resultType="String">
+		SELECT airNumber FROM kgco.numbyairline where city = #{city};
+	</select>
+
+	<select id="findGate" resultType="com.exam.domain.AirplnByGateVo">
+	select * from airplnbygate where std = #{std} and airfln = #{airFln}
+	</select>
+
+	<update id="updateGateSet">
+		Update airplnbygate set
+		gateState = #{gateState} , airNumber = #{airNumber}
+		where gate = #{gate} and airFln = #{airFln} and std = #{std}
+	</update>
+	<!-- airplnb end -->
+
+	<!-- 결항 -->
+
+	<insert id="setCansellation">
+		INSERT INTO realtimeflight
+		(airFln, airlineEnglish, airlineKorean, airport,
+		arrivedEng, arrivedKor,
+		boardingEng, boardingKor, city, etd, io, line,
+		rmkEng, rmkKor, std, regdate, enable)
+		values
+		(#{airFln},
+		#{airlineEnglish}, #{airlineKorean}, #{airport}, #{arrivedEng},
+		#{arrivedKor}, #{boardingEng}, #{boardingKor}, #{city}, #{etd}, #{io},
+		#{line}, #{rmkEng}, #{rmkKor}, #{std}, current_timestamp, '9')
+	</insert>
+
+	<select id="selectCancellation"
+		resultType="com.exam.domain.OpenApiRealTimeFlightDto">
+		select * from realtimeflight where airFln = #{key1} and std = #{key2} and
+		enable = '1'
+	</select>
+
+
+	<select id="selectCancellationCancel"
+		resultType="com.exam.domain.OpenApiRealTimeFlightDto">
+		select * from realtimeflight where airFln = #{key1} and std = #{key2} and
+		enable = '9'
+	</select>
+
+	<update id="updatecancellation">
+		Update realtimeflight set
+		enable = '10'
+		where airFln =
+		#{airFln} and airport = #{airport} and city = #{city} and enable = '9'
+	</update>
+
+
+	<select id="getNowGate"	resultType="com.exam.domain.OpenApiRealTimeFlightDto">
+		SELECT * FROM kgco.realtimeflight where std <![CDATA[ >]]>
+		#{time} and io = #{string} and (enable = '1' or enable = '2') order by std asc, airFln  asc limit 4 
+	</select>
+	<select id="getCancellation" resultType="int">
+		select count(*) from realtimeflight where airFln = #{airFln} and std =	#{std} and enable = '9'
+	</select>
+	
+	
+
+</mapper>
